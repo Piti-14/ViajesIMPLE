@@ -1,14 +1,17 @@
 package gestor;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 
+import org.json.JSONTokener;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class Viaje implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -24,9 +27,7 @@ public class Viaje implements Serializable {
     private Vector<String> pasajeros;	// códigos de los pasajeros
 
     /**
-     *
      * Contructor con los atributos de la clase, salvo el codviaje, que se contruye a partir de los otros
-     *
      * @param codprop
      * @param origen
      * @param destino
@@ -48,18 +49,26 @@ public class Viaje implements Serializable {
 
     /**
      * Contructor de un Viaje a partir de su representación en formato JSON
-     *
      * @param jsonViaje
      */
     public Viaje(JSONObject jsonViaje) {
         super();
         // POR IMPLEMENTAR
+        this.codprop = jsonViaje.get("codprop").toString();
+        this.origen = jsonViaje.get("origen").toString();
+        this.destino = jsonViaje.get("destino").toString();
+        this.fecha = jsonViaje.get("fecha").toString();
+        this.precio = (int) jsonViaje.get("origen");
+        this.numplazas = (long) jsonViaje.get("numplazas");
 
+        JSONArray listaPasajeros = (JSONArray) jsonViaje.get("pasajeros");
+        this.pasajeros.addAll(listaPasajeros);
+
+        this.codviaje = jsonViaje.get("codviaje").toString();
     }
 
     /**
      * Devuelve los datos del Viaje en formato JSON
-     *
      * @return	cadena en formato JSON con los datos del viaje
      */
     @Override
@@ -69,17 +78,29 @@ public class Viaje implements Serializable {
 
     /**
      * Devuelve un objeto JSON con los datos del viaje
-     *
      * @return	objeto JSON con los datos del Viaje
      */
     public JSONObject toJSON() {
         // POR IMPLEMENTAR
+        JSONObject jsonObject = new JSONObject();
 
+        jsonObject.put("codviaje", codviaje);
+        jsonObject.put("codprop", codprop);
+        jsonObject.put("origen", origen);
+        jsonObject.put("destino", destino);
+        jsonObject.put("fecha", fecha);
+        jsonObject.put("precio", precio);
+        jsonObject.put("numplazas", numplazas);
+
+        for (int i = 0; i < pasajeros.size(); i++) {
+            jsonObject.put("pasajero" + i, pasajeros.get(i));
+        }
+
+        return jsonObject;
     }
 
     /**
      * Indica si quedan plazas libres en el Viaje
-     *
      * @return	valor lógico indicando si quedan plazas
      */
     public boolean quedanPlazas() {
@@ -89,7 +110,6 @@ public class Viaje implements Serializable {
 
     /**
      * Indica si la fecha del viaje ya ha pasado
-     *
      * @return	valor lógico indicando si el viaje es de una fecha pasada
      */
     public boolean finalizado() {
@@ -106,7 +126,6 @@ public class Viaje implements Serializable {
     /**
      * Añade un pasajero al viaje.
      * Si no quedan plazas libres, devuelve false
-     *
      * @param pasajero
      * @return	valor lógico indicando si se ha podido añadir el pasajero al Viaje
      */
@@ -122,7 +141,6 @@ public class Viaje implements Serializable {
     /**
      * Borra un pasajero del Viaje.
      * Si no puede borrarlo, devuelve false.
-     *
      * @param pasajero
      * @return	valor lógico indicando si se ha podido borrar el pasajero del Viaje
      */
@@ -141,7 +159,6 @@ public class Viaje implements Serializable {
 
     /**
      * Contruye el código de un viaje a partir de otros atributos
-     *
      * @return	código del Viaje construido
      */
     private String construyeCodviaje() {
