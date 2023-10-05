@@ -1,3 +1,5 @@
+// Author : Pedro Marín Sanchis, Jorge Pitarch Hernando.
+
 package gestor;
 
 import java.io.Serial;
