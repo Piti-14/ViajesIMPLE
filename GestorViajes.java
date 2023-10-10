@@ -25,7 +25,6 @@ public class GestorViajes {
      */
     private static HashMap<String, Viaje> mapa;
 
-
     /**
      * Constructor del gestor de viajes
      * Crea o Lee un fichero con datos de prueba
@@ -68,7 +67,6 @@ public class GestorViajes {
 
     /**
      * escribe en el fichero un array JSON con los datos de los viajes guardados en el diccionario
-     *
      * @param os stream de escritura asociado al fichero de datos
      */
     private void escribeFichero(FileWriter os) {
@@ -138,10 +136,10 @@ public class GestorViajes {
             long precio = Long.parseLong((String) viajeJSONObject.get("precio"));
             String codprop = (String) viajeJSONObject.get("codprop");
             JSONArray pasajeros = (JSONArray) viajeJSONObject.get("pasajeros");
-            long numplazas = Long.parseLong((String) viajeJSONObject.get("numplazas"));
-            String origen = (String) viajeJSONObject.get("origen");
-            String destino = (String) viajeJSONObject.get("destino");
-            String codviaje = (String) viajeJSONObject.get("codviaje");
+            long numplazas = (long) viajeJSONObject.get("numplazas");
+            String origen = viajeJSONObject.get("origen").toString();
+            String destino = viajeJSONObject.get("destino").toString();
+            String codviaje = viajeJSONObject.get("codviaje").toString();
 
             mapa.put(codviaje, new Viaje(codprop, origen, destino, fecha, precio, numplazas));
         }
@@ -150,7 +148,6 @@ public class GestorViajes {
 
     /**
      * Devuelve los viajes disponibles con un origen dado
-     *
      * @param origen
      * @return JSONArray de viajes con un origen dado. Vacío si no hay viajes disponibles con ese origen
      */
@@ -163,7 +160,6 @@ public class GestorViajes {
 
     /**
      * El cliente codcli reserva el viaje codviaje
-     *
      * @param codviaje
      * @param codcli
      * @return JSONObject con la información del viaje. Vacío si no existe o no está disponible
@@ -174,14 +170,17 @@ public class GestorViajes {
     }
     /**
      * El cliente codcli anula su reserva del viaje codviaje
-     *
      * @param codviaje    codigo del viaje a anular
      * @param codcli    codigo del cliente
      * @return JSON del viaje en que se ha anulado la reserva. JSON vacio si no se ha anulado
      */
     public JSONObject anulaReserva (String codviaje, String codcli){
         // POR IMPLEMENTAR
+        if (mapa.get(codviaje) == null || !mapa.get(codviaje).borraPasajero(codcli)) {
+            return new JSONObject();
+        }
 
+        return mapa.get(codviaje).toJSON();
     }
 
     /**
@@ -206,7 +205,7 @@ public class GestorViajes {
     }
 
     /**
-     * El cliente codcli oferta un Viaje
+     * El cliente codcli(codprop) oferta un Viaje
      * @param codcli
      * @param origen
      * @param destino
@@ -215,15 +214,14 @@ public class GestorViajes {
      * @param numplazas
      * @return JSONObject con los datos del viaje ofertado
      */
-    public JSONObject ofertaViaje (String codcli, String origen, String destino, String fecha,long precio,
-                                   long numplazas){
+    public JSONObject ofertaViaje (String codcli, String origen, String destino, String fecha,long precio, long numplazas){
         // POR IMPLEMENTAR
 
     }
 
 
     /**
-     * El cliente codcli borra un viaje que ha ofertado
+     * El cliente codcli(codprop) borra un viaje que ha ofertado
      *
      * @param codviaje    codigo del viaje a borrar
      * @param codcli    codigo del cliente

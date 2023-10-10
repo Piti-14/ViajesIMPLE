@@ -65,7 +65,8 @@ public class ViajesLocal {
         while (true) {
             System.out.print(mensaje);
             try {
-                entero = Integer.parseInt(scanner.nextLine());
+                entero = scanner.nextInt();
+                scanner.nextLine();
                 break;
             } catch (NumberFormatException nfe) {
                 System.out.println("[ERROR] : No se ha escrito un número.");
