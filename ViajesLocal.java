@@ -9,6 +9,7 @@ public class ViajesLocal {
 
     static GestorViajes gestorViajes = new GestorViajes();
     static String codigoCliente = null;
+    final static private Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         codigoCliente = obtenerString("Introduce tu código de cliente: ");
@@ -16,13 +17,16 @@ public class ViajesLocal {
     }
 
     private static void mostrarMenu() {
-        Scanner scanner = new Scanner(System.in);
-        String mensajeMenu = "1.- Salir del programa guardando los datos en el fichero.\n"+
+        String mensajeMenu = "\n\n" +
+                "----------------------------------------------------------\n" +
+                "-------------------    MENÚ PRINCIPAL    -----------------\n" +
+                "----------------------------------------------------------\n" +
+                "1.- Salir del programa guardando los datos en el fichero.\n"+
                 "2.- Mostrar los datos de los viajes con un origen dado.\n"+
                 "3.- Reservar un viaje.\n"+
                 "4.- Anular una reserva.\n"+
                 "5.- Ofertar un nuevo viaje.\n"+
-                "6.- Borrar un viaje ofertado.";
+                "6.- Borrar un viaje ofertado.\n";
 
         while (true) {
             System.out.println(mensajeMenu);
@@ -33,23 +37,44 @@ public class ViajesLocal {
                     System.exit(0);
                     break;
                 case 2:
-                    gestorViajes.consultaViajes(obtenerString("Introduce el origen: "));
+                    System.out.println(
+                            gestorViajes.consultaViajes(
+                                    obtenerString("Introduce el origen: ")
+                            ).toJSONString()
+                    );
                     break;
                 case 3:
-                    gestorViajes.reservaViaje(obtenerString("Introduce el código del viaje: "), codigoCliente);
+                    System.out.println(
+                            gestorViajes.reservaViaje(
+                                    obtenerString("Introduce el código del viaje: "), codigoCliente
+                            ).toJSONString()
+                    );
                     break;
                 case 4:
-                    gestorViajes.anulaReserva(obtenerString("Introduce el código del viaje: "), codigoCliente);
+                    System.out.println(
+                            gestorViajes.anulaReserva(
+                                    obtenerString("Introduce el código del viaje: "),
+                                    codigoCliente
+                            ).toJSONString()
+                    );
                     break;
                 case 5:
-                    gestorViajes.ofertaViaje(codigoCliente, obtenerString("Introduce el origen: "),
-                            obtenerString("Introduce el destino: "),
-                            obtenerString("Introduce la fecha: "),
-                            obtenerLargo("Introduce el precio: "),
-                            obtenerLargo("Introduce el número de plazas: "));
+                    System.out.println(
+                            gestorViajes.ofertaViaje(codigoCliente, obtenerString("Introduce el origen: "),
+                                    obtenerString("Introduce el destino: "),
+                                    obtenerString("Introduce la fecha: "),
+                                    obtenerLargo("Introduce el precio: "),
+                                    obtenerLargo("Introduce el número de plazas: ")
+                            ).toJSONString()
+                    );
                     break;
                 case 6:
-                    gestorViajes.borraViaje(obtenerString("Introduce el código del viaje: "), codigoCliente);
+                    System.out.println(
+                            gestorViajes.borraViaje(
+                                    obtenerString("Introduce el código del viaje: "),
+                                    codigoCliente
+                            ).toJSONString()
+                    );
                     break;
                 default:
                     System.out.println("[Error] : Esa no es una opción válida.");
@@ -59,7 +84,6 @@ public class ViajesLocal {
     }
 
     private static int obtenerEntero(String mensaje) {
-        Scanner scanner = new Scanner(System.in);
         int entero = 0;
 
         while (true) {
@@ -68,16 +92,14 @@ public class ViajesLocal {
                 entero = scanner.nextInt();
                 scanner.nextLine();
                 break;
-            } catch (NumberFormatException nfe) {
+            } catch (NoSuchElementException nse) {
                 System.out.println("[ERROR] : No se ha escrito un número.");
             }
         }
-        scanner.close();
         return entero;
     }
 
     private static long obtenerLargo(String mensaje) {
-        Scanner scanner = new Scanner(System.in);
         long largo = 0;
 
         while (true) {
@@ -89,12 +111,10 @@ public class ViajesLocal {
                 System.out.println("[ERROR] : No se ha escrito un número.");
             }
         }
-        scanner.close();
         return largo;
     }
 
     private static String obtenerString(String mensaje) {
-        Scanner scanner = new Scanner(System.in);
         String string = null;
 
         while (true) {
@@ -106,7 +126,6 @@ public class ViajesLocal {
                 System.out.println("[ERROR] : No se ha escrito un número.");
             }
         }
-        scanner.close();
         return string;
     }
 

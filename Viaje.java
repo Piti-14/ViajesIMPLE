@@ -92,9 +92,11 @@ public class Viaje implements Serializable {
         jsonObject.put("fecha", fecha);
         jsonObject.put("precio", precio);
         jsonObject.put("numplazas", numplazas);
+        JSONArray pasajerosArray = new JSONArray();
+        jsonObject.put("pasajeros", pasajerosArray);
 
         for (int i = 0; i < pasajeros.size(); i++) {
-            jsonObject.put("pasajero" + i, pasajeros.get(i));
+            pasajerosArray.add(pasajeros.get(i));
         }
 
         return jsonObject;
