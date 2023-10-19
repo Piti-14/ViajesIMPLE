@@ -128,24 +128,9 @@ public class GestorViajes {
      */
     private void rellenaDiccionario(JSONArray array) {
         for (Object viaje: array) {
-
             JSONObject viajeJSONObject = (JSONObject) viaje;
-            String fecha = viajeJSONObject.get("fecha").toString();
-            long precio = Long.parseLong(viajeJSONObject.get("precio").toString());
-            String codprop = viajeJSONObject.get("codprop").toString();
-            JSONArray pasajeros = (JSONArray) viajeJSONObject.get("pasajeros");
-            long numplazas = (long) viajeJSONObject.get("numplazas");
-            String origen = viajeJSONObject.get("origen").toString();
-            String destino = viajeJSONObject.get("destino").toString();
-            String codviaje = viajeJSONObject.get("codviaje").toString();
-
-            Viaje viajeObj = new Viaje(codprop, origen, destino, fecha, precio, numplazas);
-
-            for (Object pasajero: pasajeros) {
-                viajeObj.anyadePasajero((String) pasajero);
-            }
-
-            mapa.put(codviaje, viajeObj);
+            Viaje viajeObj = new Viaje(viajeJSONObject);
+            mapa.put(viajeObj.getCodviaje(), viajeObj);
         }
     }
 

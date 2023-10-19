@@ -38,42 +38,52 @@ public class ViajesLocal {
                     break;
                 case 2:
                     System.out.println(
-                            gestorViajes.consultaViajes(
-                                    obtenerString("Introduce el origen: ")
-                            ).toJSONString()
+                            daFormatoJSONString(
+                                    gestorViajes.consultaViajes(
+                                            obtenerString("Introduce el origen: ")
+                                    ).toJSONString()
+                            )
                     );
                     break;
                 case 3:
                     System.out.println(
-                            gestorViajes.reservaViaje(
-                                    obtenerString("Introduce el código del viaje: "), codigoCliente
-                            ).toJSONString()
+                            daFormatoJSONString(
+                                    gestorViajes.reservaViaje(
+                                            obtenerString("Introduce el código del viaje: "), codigoCliente
+                                    ).toJSONString()
+                            )
                     );
                     break;
                 case 4:
                     System.out.println(
-                            gestorViajes.anulaReserva(
-                                    obtenerString("Introduce el código del viaje: "),
-                                    codigoCliente
-                            ).toJSONString()
+                            daFormatoJSONString(
+                                    gestorViajes.anulaReserva(
+                                            obtenerString("Introduce el código del viaje: "),
+                                            codigoCliente
+                                    ).toJSONString()
+                            )
                     );
                     break;
                 case 5:
                     System.out.println(
-                            gestorViajes.ofertaViaje(codigoCliente, obtenerString("Introduce el origen: "),
-                                    obtenerString("Introduce el destino: "),
-                                    obtenerString("Introduce la fecha: "),
-                                    obtenerLargo("Introduce el precio: "),
-                                    obtenerLargo("Introduce el número de plazas: ")
-                            ).toJSONString()
+                            daFormatoJSONString(
+                                    gestorViajes.ofertaViaje(codigoCliente, obtenerString("Introduce el origen: "),
+                                            obtenerString("Introduce el destino: "),
+                                            obtenerString("Introduce la fecha: "),
+                                            obtenerLargo("Introduce el precio: "),
+                                            obtenerLargo("Introduce el número de plazas: ")
+                                    ).toJSONString()
+                            )
                     );
                     break;
                 case 6:
                     System.out.println(
-                            gestorViajes.borraViaje(
-                                    obtenerString("Introduce el código del viaje: "),
-                                    codigoCliente
-                            ).toJSONString()
+                            daFormatoJSONString(
+                                    gestorViajes.borraViaje(
+                                            obtenerString("Introduce el código del viaje: "),
+                                            codigoCliente
+                                    ).toJSONString()
+                            )
                     );
                     break;
                 default:
@@ -81,6 +91,13 @@ public class ViajesLocal {
                     break;
             }
         }
+    }
+
+    private static String daFormatoJSONString(String jsonString) {
+        // TODO : Terminar el método que da formato a un string JSON.
+        jsonString.replaceAll(",", ",\n"); //ELEMENTS
+        jsonString.replaceAll("[\\]]", "\n]").replaceAll("[\\[]", "[\n"); //ARRAYS
+        return jsonString;
     }
 
     private static int obtenerEntero(String mensaje) {
